@@ -8,9 +8,14 @@ require("./database/connect")
 
 const port=process.env.PORT || 8080;
 const app=express();
+const api=require("./route/api");
 
-app.use(express.urlencoded({extended:true}))
 
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
+
+app.use("/api",api);
 
 
 //! for health check
