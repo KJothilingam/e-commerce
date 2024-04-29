@@ -2,9 +2,14 @@ require("dotenv").config()
 const express=require("express")
 
 
+//! connecting to database
+require("./database/connect")
+
+
 const port=process.env.PORT || 8080;
 const app=express();
 
+app.use(express.urlencoded({extended:true}))
 
 
 
