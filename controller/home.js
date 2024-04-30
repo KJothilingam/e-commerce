@@ -1,5 +1,6 @@
 const bcrypt=require("bcrypt");
-const jwt=require("jsonwebtoken")
+const jwt=require("jsonwebtoken");
+const mongoose=require("mongoose");
 const userModel=require("../database/model/user");
 const loginModel=require("../database/model/login");
 
@@ -15,7 +16,7 @@ const signUp=async (req,res)=>{
         let login=new loginModel({
             email:req.body.email,
             password:req.body.password,
-            user:user_id
+            user:user._id
         })
         await login.save();
         res.status(200);
@@ -23,9 +24,9 @@ const signUp=async (req,res)=>{
     }
     catch(err){
         if(user){
-            userModel.delete({_id:user._id});
+            await userModel.deleteOne({_id:user._id});
         }
-        if(err instanceof mongoose.Error.ValidationError){
+        if(err instanceof mongoose.Error.ValidationError || err instanceof mongoose.MongooseError){
             res.status(400);
             res.json({message:err.message,success:false})
         }

@@ -1,6 +1,6 @@
 const mongoose=require("mongoose")
 
-const url=process.env.MONGO_URL || "mongodb://localhost:27017";
+const url=process.env.MONGO_URL || "mongodb://localhost:27017/e_commerce";
 
 mongoose.connect(url)
 .then(()=>{
