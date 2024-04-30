@@ -3,6 +3,7 @@ const jwt=require("jsonwebtoken");
 const mongoose=require("mongoose");
 const userModel=require("../database/model/user");
 const loginModel=require("../database/model/login");
+const { MongoServerError }=require("mongodb");
 
 const signUp=async (req,res)=>{
     let user;
@@ -26,7 +27,7 @@ const signUp=async (req,res)=>{
         if(user){
             await userModel.deleteOne({_id:user._id});
         }
-        if(err instanceof mongoose.Error.ValidationError || err instanceof mongoose.MongooseError){
+        if(err instanceof mongoose.Error.ValidationError || err instanceof MongoServerError){
             res.status(400);
             res.json({message:err.message,success:false})
         }

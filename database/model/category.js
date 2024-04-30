@@ -5,7 +5,8 @@ const categorySchema=mongoose.Schema({
         type:String,
         lowercase:true,
         trim:true,
-        required:true
+        required:true,
+        unique: true
     }
 })
 
