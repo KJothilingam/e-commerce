@@ -42,7 +42,22 @@ const addCategory=async(req,res)=>{
 
 const addProduct=async(req,res)=>{
     try{
-        
+        let category=await categoryModel.findOne({category:req.body.category});
+        if(!category){
+            res.status(400);
+            res.json({message:"invalid category ( add new category )",success:false});
+            return;
+        }
+        let product=new productModel({
+            name:req.body.name,
+            discription:req.body.discription,
+            stock:req.body.stock,
+            price:req.body.price,
+            category:category._id
+        })
+        await product.save();
+        res.status(200);
+        res.json({message:"product added",success:true})
     }
     catch(err){
         if(err instanceof mongoose.Error.ValidationError || err instanceof MongoServerError){
