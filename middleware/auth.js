@@ -2,13 +2,13 @@ const jwt=require("jsonwebtoken");
 
 const auth=async (req,res,next)=>{
     try{
-        if(!req.cookie.sessionId){
+        if(!req.cookies.sessionId){
             res.status(403);
             res.json({message:"no sessionId",success:false})
         }
-        let data=jwt.verify(req.cookie.sessionId,process.env.SECRET_KEY)
+        let data=jwt.verify(req.cookies.sessionId,process.env.SECRET_KEY)
         req["email"]=data.email;
-        req["user"]=data.user;
+        req["user"]=data.userId;
         next();
     }
     catch(err){

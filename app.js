@@ -1,5 +1,6 @@
 require("dotenv").config()
 const express=require("express")
+const cookieParser=require("cookie-parser");
 
 
 //! connecting to database
@@ -13,6 +14,7 @@ const api=require("./route/api");
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(cookieParser());
 
 
 app.use("/api",api);
