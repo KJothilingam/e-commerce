@@ -15,7 +15,12 @@ const addToCart=async(req,res)=>{
         }
         let data=await cartModel.findOne({user:req.user,product:req.body.id,checkout:false});
         if(data){
-            await cartModel.updateOne({_id:data._id},{$inc:{qty:req.body.qty}});
+            if(data.qty<=-req.body.qty){
+                await cartModel.deleteOne({_id:data._id});
+            }
+            else{
+                await cartModel.updateOne({_id:data._id},{$inc:{qty:req.body.qty}});
+            }
         }
         else{
             let cart=new cartModel({
