@@ -72,7 +72,41 @@ const addProduct=async(req,res)=>{
 }
 
 const getProduct=async(req,res)=>{
-
+    try{
+        let filter={};
+        if(req.query.category){
+            let category=await categoryModel.findOne({category:req.query.category});
+            if(!category){
+                res.status(400);
+                res.Json({message:"invalid category",success:false});
+                return;
+            }
+            filter["category"]=category._id;
+        }
+        let price={};
+        let flag=false;
+        if(req.query.minPrice){
+            price["$gte"]=req.query.minPrice;
+            flag=true;
+        }
+        if(req.query.maxPrice){
+            price["$lte"]=req.query.maxPrice;
+            flag=true;
+        }
+        if(flag){
+            filter["price"]={...price}
+        }
+        let data=await productModel.find(filter,{_id:false,__v:false}).populate([
+            {path:"category",select:["-__v"]}
+        ]);
+        res.status(200);
+        res.send({test:"got it",filter,data});
+    }
+    catch(err){
+        console.log(err);
+        res.status(500);
+        res.json({message:"server error",success:false})
+    }
 }
 
 

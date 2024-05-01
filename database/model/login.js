@@ -16,7 +16,8 @@ const loginSchema=mongoose.Schema({
     },
     user:{
         type: mongoose.Schema.ObjectId,
-        required: true
+        required: true,
+        ref:"user"
     }
 })
 

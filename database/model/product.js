@@ -24,7 +24,8 @@ const productSchema=mongoose.Schema({
     },
     category:{
         type:mongoose.Schema.ObjectId,
-        required:true
+        required:true,
+        ref:"category"
     }
 })
 

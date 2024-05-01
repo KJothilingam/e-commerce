@@ -7,7 +7,7 @@ const paymentSchema=mongoose.Schema({
         required:true
     },
     cart:[
-        {type:mongoose.Schema.ObjectId,required:true}
+        {type:mongoose.Schema.ObjectId,required:true,ref:"cart"}
     ]
 })
 
