@@ -14,7 +14,13 @@ const cartSchema=mongoose.Schema({
     qty:{
         type:Number,
         default:1,
-        required:true
+        required:true,
+        min:1
+    },
+    checkout:{
+        type:Boolean,
+        required:true,
+        default:false
     }
 })
 
