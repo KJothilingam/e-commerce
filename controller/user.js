@@ -7,6 +7,7 @@ const getUser=async(req,res)=>{
     try{
         let data=await userModel.findOne({_id:req.user},{_id:false,__v:false});
         data._doc["email"]=req.email
+        data._doc["admin"]=req.admin
         res.status(200);
         res.json({message:"data from db",data,success:true})
     }

@@ -10,6 +10,7 @@ const auth=async(req,res,next)=>{
         let data=jwt.verify(req.cookies.sessionId,process.env.SECRET_KEY)
         req["email"]=data.email;
         req["user"]=data.userId;
+        req["admin"]=data.admin;
         next();
     }
     catch(err){

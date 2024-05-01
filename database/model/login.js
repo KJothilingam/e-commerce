@@ -18,6 +18,11 @@ const loginSchema=mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         required: true,
         ref:"user"
+    },
+    admin:{
+        type:Boolean,
+        required: true,
+        default: false
     }
 })
 

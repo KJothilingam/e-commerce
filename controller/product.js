@@ -21,6 +21,11 @@ const getCategory=async(req,res)=>{
 
 const addCategory=async(req,res)=>{
     try{
+        if(!req.admin){
+            res.status(401);
+            res.json({message:"only admin can add category",success:false});
+            return;
+        }
         category=new categoryModel({
             category:req.body.category
         })
@@ -42,6 +47,11 @@ const addCategory=async(req,res)=>{
 
 const addProduct=async(req,res)=>{
     try{
+        if(!req.admin){
+            res.status(401);
+            res.json({message:"only admin can add product",success:false});
+            return;
+        }
         let category=await categoryModel.findOne({category:req.body.category});
         if(!category){
             res.status(400);
@@ -110,6 +120,11 @@ const getProduct=async(req,res)=>{
 
 const addStock=async(req,res)=>{
     try{
+        if(!req.admin){
+            res.status(401);
+            res.json({message:"only admin can update stock",success:false});
+            return;
+        }
         let update=await productModel.updateOne({_id:req.body.id},{$inc:{stock:req.body.qty}});
         if(update.matchedCount==0){
             res.status(400);

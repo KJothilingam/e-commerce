@@ -48,7 +48,7 @@ const logIn=async(req,res)=>{
             return;
         }
         if(await bcrypt.compare(req.body.password,login.password)){
-            let token=jwt.sign({email:login.email,userId:login.user},process.env.SECRET_KEY)
+            let token=jwt.sign({email:login.email,userId:login.user,admin:login.admin},process.env.SECRET_KEY);
             res.cookie("sessionId",token);
             res.status(200);
             res.json({message:"login success",success:true});
