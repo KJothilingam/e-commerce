@@ -96,18 +96,39 @@ const getProduct=async(req,res)=>{
         if(flag){
             filter["price"]={...price}
         }
-        let data=await productModel.find(filter,{_id:false,__v:false}).populate([
+        let data=await productModel.find(filter,{__v:false}).populate([
             {path:"category",select:["-__v"]}
         ]);
         res.status(200);
-        res.send({test:"got it",filter,data});
+        res.send({message:"list of product details",data,success:true});
     }
     catch(err){
-        console.log(err);
         res.status(500);
         res.json({message:"server error",success:false})
     }
 }
 
+const addStock=async(req,res)=>{
+    try{
+        let update=await productModel.updateOne({_id:req.body.id},{$inc:{stock:req.body.qty}});
+        if(update.matchedCount==0){
+            res.status(400);
+            res.json({message:"invalid product Id",success:false});
+            return;
+        }
+        res.status(200);
+        res.json({message:"incremented the stock count",success:true});
+    }
+    catch(err){
+        if(err instanceof mongoose.Error.CastError){
+            res.status(400);
+            res.json({message:"invalid product Id",success:false});
+            return;
+        }
+        res.status(500);
+        res.json({message:"server error",success:false});
+    }
+}
 
-module.exports={getCategory,addCategory,getProduct,addProduct}
+
+module.exports={getCategory,addCategory,getProduct,addProduct,addStock}
